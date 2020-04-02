@@ -97,5 +97,14 @@ bandit_average = np.divide([ sum(x) for x in zip(*bandit_Rs) ],bandits);
 OptAct_average = np.divide([ sum(x) for x in zip(*bandit_Opt_Acts) ],bandits);
 
 axs[0].plot(np.arange(len(bandit_average)),bandit_average,'g',label="alpha = 0.1");
+axs[0].set_title("Steps vs Average Rewards")
+axs[0].set_xlabel("Steps")
+axs[0].set_ylabel("Average Rewards")
+
 axs[1].plot(np.arange(len(OptAct_average)),OptAct_average,'g',label="alpha = 0.1");
+axs[1].set_title("Steps vs Optimal Action")
+axs[1].set_xlabel("Steps")
+axs[1].set_ylabel("% Optimal Action")
+plt.legend(loc='best')
+plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.8)
 plt.show();

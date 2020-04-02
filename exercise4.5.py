@@ -17,15 +17,14 @@ loc1_P_ret = np.multiply(np.divide(3**poission_locs, factorial(poission_locs)), 
 loc2_P_req = np.multiply(np.divide(4**poission_locs, factorial(poission_locs)), e**(-1*4));
 loc2_P_ret = np.multiply(np.divide(2**poission_locs, factorial(poission_locs)), e**(-1*2));
 
-delta = 1;
 P_stable = False;
 iters = 0;
 while(P_stable==False):
     iters = iters+1;
     if iters > 10:
         break;
-    delta = 13;
-    while(delta > 12):
+    delta = 6;
+    while(delta > 5):
         delta = 0;
         #Policy Evaluation
 
@@ -119,10 +118,25 @@ while(P_stable==False):
             print("Changed from: "+str(pi_s)+" to: "+str(Pi[state[0],state[1]]))
             P_stable = False;
 
+    plt.figure(1)
+    plt.clf()
+    plt.subplot (121)
+    plt.title("Policy Pi(s)")
+    plt.xlabel("Cars in 1st parking lot")
+    plt.ylabel("Cars in 2nd parking lot")
     plt.imshow(Pi);
-    plt.ion();
-    plt.show();
     plt.colorbar()
+
+    plt.subplot(122)
+    plt.title("Values function V(s)")
+    plt.xlabel("Cars in 1st parking lot")
+    plt.xlabel("Cars in 2nd parking lot")
+    plt.imshow(Values);
+    plt.colorbar()
+    plt.ion()
+    if P_stable or iter==10:
+        plt.ioff();
+
+    plt.show()
     plt.pause(0.001)
     print(P_stable)
-

@@ -5,6 +5,7 @@ import random
 gamma = 0.9
 goal = 100
 ph = 0.55
+
 States = [i for i in range(goal+1)]
 Values = [0 for i in States]
 Values[-1] = 1
@@ -19,7 +20,7 @@ while(delta>theta):
         v = Values[state]
         max_V = -0.1
         for action in Actions[state]:
-            Vs_temp = (ph * Values[int(state+action)]) + ((1-ph) * Values[int(state-action)])
+            Vs_temp = (ph * gamma * Values[int(state+action)]) + ((1-ph) * Values[int(state-action)])
             if Vs_temp >= max_V:
                 max_V = Vs_temp
                 Values[state] = Vs_temp
@@ -29,7 +30,7 @@ while(delta>theta):
 for state in range(1, goal):
     max_V = -0.1
     for action in Actions[state]:
-        Vs_temp = (ph * Values[int(state+action)]) + ((1-ph) * Values[int(state-action)])
+        Vs_temp = (ph * gamma * gamma * Values[int(state+action)]) + ((1-ph) * gamma * Values[int(state-action)])
         if Vs_temp >= max_V:
             Pi[state] = action
 

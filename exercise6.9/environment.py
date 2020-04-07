@@ -36,7 +36,7 @@ class Environment:
                              self.current_loc[1] + move_vals[1]])
         next_loc = [max(0, min(self.rows - 1, next_loc[0])), max(0, min(self.cols - 1, next_loc[1]))]
         self.area[self.rows - next_loc[0] - 1][next_loc[1]] = 4
-        next_loc[0] = next_loc[0] + self.wind_str[next_loc[1]]
+        next_loc[0] = next_loc[0] + self.wind_str[self.current_loc[1]]
         next_loc = [max(0, min(self.rows - 1, next_loc[0])), max(0, min(self.cols - 1, next_loc[1]))]
 
         self.current_loc = next_loc

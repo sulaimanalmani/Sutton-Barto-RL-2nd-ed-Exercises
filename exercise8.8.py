@@ -162,7 +162,7 @@ def main():
         plt.plot(np.mean(sample_dist[1:, :], axis=0), 'b', label='Policy Sampling')
         plt.plot(np.mean(uniform_distrib[1:, :], axis=0), 'r', label='Uniform Distribution')
         plt.title("Uniform Distribution vs Policy Sampling (b=3, n_states=10000)")
-        plt.xlabel("Expected Updates x1e4")
+        plt.xlabel("Expected Updates x1e3")
         plt.ylabel("Initial State Value")
         plt.legend()
         plt.ion()

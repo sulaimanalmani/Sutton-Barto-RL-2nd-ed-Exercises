@@ -90,19 +90,21 @@ def policy_sampling(rewards, connections, iters, b, n_state):
 
             s_t_next = random.sample(connections[s_t, a_t, :].tolist(), 1)[0]
             temp = 0
-            for i in range(b):
-                temp_s_t_next = connections[s_t, a_t, i]
-                r = rewards[s_t, a_t, np.where(connections[s_t, a_t, :] == temp_s_t_next)]
-                temp = temp + 0.9 * (1 / b) * (r + gamma * np.max(action_values[temp_s_t_next, :]))[0]
-            r = rewards[s_t, a_t, -1]
-            temp = temp + 0.1 * r
-            action_values[s_t, a_t] = float(temp)
 
             if np.random.choice([0, 1], p=[0.1, 0.9]) == 0:
                 end = True
 
-            s_t = s_t_next
             step = step + 1
+
+            for i in range(b):
+                temp_s_t_next = connections[s_t, a_t, i]
+                r = rewards[s_t, a_t, i]
+                temp = temp + 0.9 * (1 / b) * (r + gamma * np.max(action_values[temp_s_t_next, :]))
+            r = rewards[s_t, a_t, -1]
+            temp = temp + 0.1 * r
+            action_values[s_t, a_t] = float(temp)
+
+            s_t = s_t_next
     return s0_value
 
 
@@ -128,8 +130,8 @@ def uniform_dist(rewards, connections, iters, b, n_state):
                 temp = 0
                 for i in range(b):
                     temp_s_t_next = connections[s_t, a_t, i]
-                    r = rewards[s_t, a_t, np.where(connections[s_t, a_t, :] == temp_s_t_next)]
-                    temp = temp + 0.9 * (1 / b) * (r + gamma * np.max(action_values[temp_s_t_next, :]))[0]
+                    r = rewards[s_t, a_t, i]
+                    temp = temp + 0.9 * (1 / b) * (r + gamma * np.max(action_values[temp_s_t_next, :]))
                 r = rewards[s_t, a_t, -1]
                 temp = temp + 0.1 * r
                 action_values[s_t, a_t] = float(temp)
@@ -142,7 +144,7 @@ def uniform_dist(rewards, connections, iters, b, n_state):
 
 def main():
     n_state = 10000
-    n_action = 2 #Donot change this value.
+    n_action = 2  # Don't change this value.
     b = 3
     iters = 200000
     sample_dist = np.zeros(shape=int(iters / 1000 + 1))
@@ -161,8 +163,8 @@ def main():
         plt.clf()
         plt.plot(np.mean(sample_dist[1:, :], axis=0), 'b', label='Policy Sampling')
         plt.plot(np.mean(uniform_distrib[1:, :], axis=0), 'r', label='Uniform Distribution')
-        plt.title("Uniform Distribution vs Policy Sampling (b=" + str(b) + "n_states=" + str(n_state))")
-        plt.xlabel("Expected Updates x1e4")
+        plt.title("Uniform Distribution vs Policy Sampling (b=" + str(b) + ", n_states=" + str(n_state) + ")")
+        plt.xlabel("Expected Updates x1e3")
         plt.ylabel("Initial State Value")
         plt.legend()
         plt.ion()

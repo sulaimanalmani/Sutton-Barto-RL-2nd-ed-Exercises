@@ -65,7 +65,7 @@ def policy_eval(action_values, rewards, connections, b):
 #     return state_values[0]
 
 
-def policy_sampling(rewards, connections, iters, b=1, n_state=10000):
+def policy_sampling(rewards, connections, iters, b, n_state):
     s0_value = []
     n_action = 2
     e = 0.1
@@ -106,7 +106,7 @@ def policy_sampling(rewards, connections, iters, b=1, n_state=10000):
     return s0_value
 
 
-def uniform_dist(rewards, connections, iters, b=1, n_state=10000):
+def uniform_dist(rewards, connections, iters, b, n_state):
     s0_value = []
     n_action = 2
     e = 0.1
@@ -142,7 +142,7 @@ def uniform_dist(rewards, connections, iters, b=1, n_state=10000):
 
 def main():
     n_state = 10000
-    n_action = 2
+    n_action = 2 #Donot change this value.
     b = 3
     iters = 200000
     sample_dist = np.zeros(shape=int(iters / 1000 + 1))
@@ -155,14 +155,14 @@ def main():
         connections = np.array(
             [[[random.sample(range(n_state), b)][0] for i in range(n_action)] for j in range(n_state)])
 
-        sample_dist = np.vstack((sample_dist, policy_sampling(rewards, connections, iters)))
-        uniform_distrib = np.vstack((uniform_distrib, uniform_dist(rewards, connections, iters)))
+        sample_dist = np.vstack((sample_dist, policy_sampling(rewards, connections, iters, b, n_state)))
+        uniform_distrib = np.vstack((uniform_distrib, uniform_dist(rewards, connections, iters, b, n_state)))
 
         plt.clf()
         plt.plot(np.mean(sample_dist[1:, :], axis=0), 'b', label='Policy Sampling')
         plt.plot(np.mean(uniform_distrib[1:, :], axis=0), 'r', label='Uniform Distribution')
-        plt.title("Uniform Distribution vs Policy Sampling (b=3, n_states=10000)")
-        plt.xlabel("Expected Updates x1e3")
+        plt.title("Uniform Distribution vs Policy Sampling (b=" + str(b) + "n_states=" + str(n_state))")
+        plt.xlabel("Expected Updates x1e4")
         plt.ylabel("Initial State Value")
         plt.legend()
         plt.ion()

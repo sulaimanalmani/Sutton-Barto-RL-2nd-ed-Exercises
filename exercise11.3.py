@@ -41,9 +41,10 @@ def main():
 
     for i in range(8):
         plt.plot(w_history[:,i])
-    plt.show()
     plt.title('Biard\'s Counter Example')
     plt.xlabel('Update Step')
     plt.ylabel('Weight Values')
+    plt.show()
+    
 if __name__ == "__main__":
     main()
